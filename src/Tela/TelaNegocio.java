@@ -11,7 +11,9 @@ import Lucene.MainLucene;
 import Lucene.Searcher;
 import Utils.HTMLFileFilter;
 import Utils.UtilHTML;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +43,7 @@ public class TelaNegocio extends TelaPrincipal {
     
     @Override
     void index() {
+        boolean e = false;
         try {
             utilHTML.saveToDisk(getCampoURL().getText());
             Indexer indexer = new Indexer(mainLucene.getIndexDir());
@@ -49,7 +52,9 @@ public class TelaNegocio extends TelaPrincipal {
             indexer.close();
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            e = true;
         } finally {
+            if (!e)
             JOptionPane.showMessageDialog(null, "HTML Indexed Succesfully.\n");
         }
     }
@@ -72,6 +77,7 @@ public class TelaNegocio extends TelaPrincipal {
             for (ScoreDoc scoreDoc : hits.scoreDocs) {
                 Vector<Object> data = new Vector<>();
                 Document doc = searcher.getDocument(scoreDoc);
+                data.add(doc.get(LuceneConstants.FILE_NAME));
                 data.add(doc.get(LuceneConstants.FILE_PATH));
                 dtm.addRow(data);
             }
@@ -91,6 +97,44 @@ public class TelaNegocio extends TelaPrincipal {
         }
     }
     
+    @Override
+    void deleteIndex() {
+        String tmp = (String) getTabela().getModel().getValueAt(getTabela().getSelectedRow(),
+                1);
+        String cat = "rm " + tmp;
+        Process p = null;
+        try {
+            p = Runtime.getRuntime().exec(cat);
+        } catch (IOException ex) {
+            Logger.getLogger(TelaNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            p.waitFor();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TelaNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+       
+
+            
+            Indexer indexer = null;
+        try {
+            indexer = new Indexer(mainLucene.getIndexDir());
+        } catch (IOException ex) {
+            Logger.getLogger(TelaNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            indexer.createIndex(mainLucene.getDataDir(), new HTMLFileFilter());
+        } catch (IOException ex) {
+            Logger.getLogger(TelaNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            indexer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TelaNegocio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+    }
     private static void deleteAllRows(final DefaultTableModel model) {
         for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
             model.removeRow(i);
