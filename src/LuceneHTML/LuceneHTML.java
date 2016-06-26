@@ -29,7 +29,6 @@ public class LuceneHTML {
         TelaNegocio telaNegocio = new TelaNegocio();
         telaNegocio.setVisible(true);
 
-      
     }
     
 }
