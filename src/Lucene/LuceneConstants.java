@@ -11,8 +11,8 @@ package Lucene;
  */
 public class LuceneConstants {
    
-   static String FILE_NAME="filename";
-   static String FILE_PATH="filepath";
-   static int MAX_SEARCH = 10;
-   static String CONTENTS = "contents";
+   public static String FILE_NAME="filename";
+   public static String FILE_PATH="filepath";
+   public static int MAX_SEARCH = 10;
+   public static String CONTENTS = "contents";
 }

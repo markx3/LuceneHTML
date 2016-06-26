@@ -37,7 +37,7 @@ public class Indexer {
          IndexWriter.MaxFieldLength.UNLIMITED);
     }
     
-    public void close() throws CorruptIndexException, IOException {
+    void close() throws CorruptIndexException, IOException {
         writer.close();
     }
     
@@ -60,13 +60,13 @@ public class Indexer {
         
         document.add(contentField);
         document.add(fileNameField);
-         document.add(filePathField);
+        document.add(filePathField);
 
       return document;
         
     }
     
-    private void indexFile(File file) throws IOException{
+    public void indexFile(File file) throws IOException{
       System.out.println("Indexing "+file.getCanonicalPath());
       Document document = getDocument(file);
       writer.addDocument(document);

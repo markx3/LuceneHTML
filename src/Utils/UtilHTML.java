@@ -31,12 +31,12 @@ public class UtilHTML {
         
     }
     
-    public void htmlToFile(Document doc) throws IOException {
-        final File f = new File("db/"+doc.title()+".html");
+    public void htmlToFile(Document doc, String fileName) throws IOException {
+        final File f = new File("db/"+fileName.substring(7)+".html");
         FileUtils.writeStringToFile(f, doc.outerHtml(), "UTF-8");
     }
     
     public void saveToDisk(String url) throws IOException {
-        htmlToFile(getHtml(url));
+        htmlToFile(getHtml(url), url);
     }
 }

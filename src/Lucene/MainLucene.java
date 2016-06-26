@@ -6,32 +6,39 @@
 package Lucene;
 
 import Utils.HTMLFileFilter;
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 
-public class LuceneTester {
+public class MainLucene {
 	
-   String indexDir = "index/";
-   String dataDir = "db/";
-   Indexer indexer;
-   Searcher searcher;
+   private final String indexDir = "index/";
+   private final String dataDir = "db/";
+   private Indexer indexer;
+   private Searcher searcher;
 
-   public static void main(String[] args) {
-      LuceneTester tester;
-      try {
-         tester = new LuceneTester();
-         tester.createIndex();
-         tester.search("Login");
-      } catch (IOException | ParseException e) {
-      }
+    public MainLucene() throws IOException {
+        this.indexer = new Indexer(dataDir);
+        this.searcher = new Searcher(indexDir);
+    }
+
+     public void inicializaMainLucene() throws IOException {
+      //if (!new File(indexDir).exists()) {
+        try { 
+            createIndex();
+        } catch (IOException e) {
+       // }
+     }
    }
-
-   private void createIndex() throws IOException{
-      indexer = new Indexer(indexDir);
+   
+   public void createIndex() throws IOException{
+      //indexer = new Indexer(indexDir);
       int numIndexed;
       long startTime = System.currentTimeMillis();	
       numIndexed = indexer.createIndex(dataDir, new HTMLFileFilter());
@@ -41,8 +48,8 @@ public class LuceneTester {
          +(endTime-startTime)+" ms");		
    }
 
-   private void search(String searchQuery) throws IOException, ParseException{
-      searcher = new Searcher(indexDir);
+   public void search(String searchQuery) throws IOException, ParseException{
+      //searcher = new Searcher(indexDir);
       long startTime = System.currentTimeMillis();
       TopDocs hits = searcher.search(searchQuery);
       long endTime = System.currentTimeMillis();
@@ -56,4 +63,23 @@ public class LuceneTester {
       }
       searcher.close();
    }
+
+    public String getIndexDir() {
+        return indexDir;
+    }
+
+    public String getDataDir() {
+        return dataDir;
+    }
+
+    public Indexer getIndexer() {
+        return indexer;
+    }
+
+    public Searcher getSearcher() {
+        return searcher;
+    }
+   
+   
+   
 }
