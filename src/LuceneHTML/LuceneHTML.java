@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package indexacaosite;
+package LuceneHTML;
 
 import Lucene.Indexer;
 import Utils.HTMLFileFilter;
@@ -17,7 +17,7 @@ import org.jsoup.nodes.Document;
  *
  * @author marcos
  */
-public class IndexacaoSite {
+public class LuceneHTML {
 
     private static Indexer indexer;
     private static HTMLFileFilter htmlFileFiler;
