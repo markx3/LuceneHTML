@@ -23,22 +23,17 @@ public class MainLucene {
    private Indexer indexer;
    private Searcher searcher;
 
-    public MainLucene() throws IOException {
-        this.indexer = new Indexer(dataDir);
-        this.searcher = new Searcher(indexDir);
-    }
-
      public void inicializaMainLucene() throws IOException {
-      //if (!new File(indexDir).exists()) {
+      if (!new File(indexDir).exists()) {
         try { 
             createIndex();
         } catch (IOException e) {
-       // }
+        }
      }
    }
    
    public void createIndex() throws IOException{
-      //indexer = new Indexer(indexDir);
+      indexer = new Indexer(indexDir);
       int numIndexed;
       long startTime = System.currentTimeMillis();	
       numIndexed = indexer.createIndex(dataDir, new HTMLFileFilter());
@@ -49,7 +44,7 @@ public class MainLucene {
    }
 
    public void search(String searchQuery) throws IOException, ParseException{
-      //searcher = new Searcher(indexDir);
+      searcher = new Searcher(indexDir);
       long startTime = System.currentTimeMillis();
       TopDocs hits = searcher.search(searchQuery);
       long endTime = System.currentTimeMillis();

@@ -26,7 +26,7 @@ import org.apache.lucene.search.TopDocs;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     private final UtilHTML utilHTML = new UtilHTML();
-    private final MainLucene mainLucene = new MainLucene();
+    private final MainLucene mainLucene;
 
     /**
      * Creates new form TelaPrincipal
@@ -34,6 +34,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() throws IOException {
         initComponents();
+        mainLucene = new MainLucene();
         mainLucene.inicializaMainLucene();
     }
 
@@ -163,7 +164,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             Indexer indexer;
             indexer = new Indexer(mainLucene.getIndexDir());
             indexer.indexFile(new File("db/"+campoURL.getText().substring(7)+".html"));
-            mainLucene.createIndex();
             campoURL.setText("");
             
         } catch (IOException ex) {
@@ -176,17 +176,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         try {
             Searcher searcher = new Searcher(mainLucene.getIndexDir());
             long startTime = System.currentTimeMillis();
-      TopDocs hits = searcher.search(campoPesquisa.getText());
-      long endTime = System.currentTimeMillis();
+            TopDocs hits = searcher.search(campoPesquisa.getText());
+            long endTime = System.currentTimeMillis();
    
-      System.out.println(hits.totalHits +
-         " documents found. Time :" + (endTime - startTime));
-      for(ScoreDoc scoreDoc : hits.scoreDocs) {
-         Document doc = searcher.getDocument(scoreDoc);
-            System.out.println("File: "
-            + doc.get(LuceneConstants.FILE_PATH));
-      }
-        } catch (IOException | ParseException ex) {
+            System.out.println(hits.totalHits +
+               " documents found. Time :" + (endTime - startTime));
+            for(ScoreDoc scoreDoc : hits.scoreDocs) {
+               Document doc = searcher.getDocument(scoreDoc);
+                  System.out.println("File: "
+                  + doc.get(LuceneConstants.FILE_PATH));
+            }
+            } catch (IOException | ParseException ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
