@@ -6,17 +6,14 @@
 package Lucene;
 
 import Utils.HTMLFileFilter;
-import java.awt.Event;
-import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
+
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
+
 
 public class MainLucene {
 	
@@ -26,7 +23,8 @@ public class MainLucene {
    private Searcher searcher;
 
    public MainLucene() throws IOException {
-       //createIndex();
+       // Vai que o usuário resolve inserir manualmente...
+       createIndex();
    }
    
    public void createIndex() throws IOException{
