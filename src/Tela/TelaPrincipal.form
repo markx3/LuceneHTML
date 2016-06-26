@@ -23,26 +23,30 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" pref="664" max="32767" attributes="0"/>
                   <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="campoURL" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="campoPesquisa" max="32767" attributes="0"/>
+                          <Component id="campoURL" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnPesquisar" max="32767" attributes="0"/>
-                          <Component id="btnIndexar" max="32767" attributes="0"/>
+                          <Component id="btnIndex" max="32767" attributes="0"/>
                       </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="labelCount" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -58,7 +62,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="campoURL" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnIndexar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnIndex" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -66,8 +70,10 @@
                   <Component id="campoPesquisa" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnPesquisar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+              <Component id="labelCount" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="401" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -93,17 +99,17 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoURLActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnIndexar">
+    <Component class="javax.swing.JButton" name="btnIndex">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Indexar"/>
+        <Property name="text" type="java.lang.String" value="Index"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIndexarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIndexActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Pesquisa:"/>
+        <Property name="text" type="java.lang.String" value="Search:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="campoPesquisa">
@@ -116,7 +122,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnPesquisar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Pesquisar"/>
+        <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPesquisarActionPerformed"/>
@@ -133,7 +139,7 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="1" rowCount="0">
-                <Column editable="true" title="File" type="java.lang.String"/>
+                <Column editable="false" title="File" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -152,5 +158,10 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="labelCount">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="HTML files found:"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

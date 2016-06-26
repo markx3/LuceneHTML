@@ -53,12 +53,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         campoURL = new javax.swing.JTextField();
-        btnIndexar = new javax.swing.JButton();
+        btnIndex = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         campoPesquisa = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
+        labelCount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,14 +75,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnIndexar.setText("Indexar");
-        btnIndexar.addActionListener(new java.awt.event.ActionListener() {
+        btnIndex.setText("Index");
+        btnIndex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIndexarActionPerformed(evt);
+                btnIndexActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("Pesquisa:");
+        jLabel3.setText("Search:");
 
         campoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,7 +101,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setText("Search");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -118,12 +119,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane1.setViewportView(tabela);
+
+        labelCount.setText("HTML files found:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,13 +149,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(campoURL)
-                            .addComponent(campoPesquisa))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoPesquisa)
+                            .addComponent(campoURL))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnIndexar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnIndex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelCount)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -157,14 +170,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(campoURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnIndexar))
+                    .addComponent(btnIndex))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(labelCount)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -190,9 +205,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
     
-    private void btnIndexarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndexarActionPerformed
+    private void btnIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndexActionPerformed
         index();
-    }//GEN-LAST:event_btnIndexarActionPerformed
+    }//GEN-LAST:event_btnIndexActionPerformed
     
     private void search() {
          try {
@@ -201,6 +216,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             TopDocs hits = searcher.search(campoPesquisa.getText());
             long endTime = System.currentTimeMillis();
             
+            labelCount.setText("HTML files found: "+ hits.totalHits);
 
             DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
             deleteAllRows(dtm);
@@ -294,7 +310,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIndexar;
+    private javax.swing.JButton btnIndex;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JTextField campoPesquisa;
     private javax.swing.JTextField campoURL;
@@ -302,6 +318,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelCount;
     private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }
