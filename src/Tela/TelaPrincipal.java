@@ -213,11 +213,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 dtm.addRow(data);
             }
             
-           tabela.setModel(dtm);
-
-      
-            
-   
+            tabela.setModel(dtm);
             System.out.println(hits.totalHits +
                " documents found. Time :" + (endTime - startTime));
             for(ScoreDoc scoreDoc : hits.scoreDocs) {
