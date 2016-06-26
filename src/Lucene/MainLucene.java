@@ -6,6 +6,7 @@
 package Lucene;
 
 import Utils.HTMLFileFilter;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -15,7 +16,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 
 
-public class MainLucene {
+public final class MainLucene {
 	
    private final String indexDir = "index/";
    private final String dataDir = "db/";
@@ -23,7 +24,14 @@ public class MainLucene {
    private Searcher searcher;
 
    public MainLucene() throws IOException {
-       // Vai que o usuário resolve inserir manualmente...
+       
+       File directory = new File(String.valueOf(dataDir));
+        if (! directory.exists()){
+            directory.mkdir();
+        }
+       
+
+        // Vai que o usuário resolve inserir manualmente...
        createIndex();
    }
    

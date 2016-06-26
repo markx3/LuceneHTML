@@ -48,7 +48,7 @@ public class TelaNegocio extends TelaPrincipal {
             utilHTML.saveToDisk(getCampoURL().getText());
             Indexer indexer = new Indexer(mainLucene.getIndexDir());
             indexer.createIndex(mainLucene.getDataDir(), new HTMLFileFilter());
-            getCampoURL().setText("");
+            getCampoURL().setText("http://");
             indexer.close();
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
