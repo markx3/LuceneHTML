@@ -25,11 +25,8 @@ public class MainLucene {
    private Indexer indexer;
    private Searcher searcher;
 
-     public void inicializaMainLucene() throws IOException {
-        try { 
-            createIndex();
-        } catch (IOException e) {
-     }
+   public MainLucene() throws IOException {
+       //createIndex();
    }
    
    public void createIndex() throws IOException{

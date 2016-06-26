@@ -6,6 +6,7 @@
 package LuceneHTML;
 
 import Lucene.Indexer;
+import Tela.TelaNegocio;
 import Utils.HTMLFileFilter;
 import Utils.UtilHTML;
 import java.io.File;
@@ -18,9 +19,6 @@ import org.jsoup.nodes.Document;
  * @author marcos
  */
 public class LuceneHTML {
-
-    private static Indexer indexer;
-    private static HTMLFileFilter htmlFileFiler;
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -28,13 +26,10 @@ public class LuceneHTML {
     
     public static void main(String[] args) throws IOException {
         
-        UtilHTML utilHtml = new UtilHTML();
-        Scanner scanner = new Scanner(System.in);
-        utilHtml.saveToDisk(scanner.nextLine());
+        TelaNegocio telaNegocio = new TelaNegocio();
+        telaNegocio.setVisible(true);
 
-        
-        
-        
+      
     }
     
 }

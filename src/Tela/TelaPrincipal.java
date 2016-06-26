@@ -5,40 +5,27 @@
  */
 package Tela;
 
-import Lucene.Indexer;
-import Lucene.LuceneConstants;
-import Lucene.MainLucene;
-import Lucene.Searcher;
-import Utils.HTMLFileFilter;
-import Utils.UtilHTML;
-import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
 
 /**
  *
  * @author marcos
  */
-public class TelaPrincipal extends javax.swing.JFrame {
-    private final UtilHTML utilHTML = new UtilHTML();
-    private final MainLucene mainLucene;
+public abstract class TelaPrincipal extends javax.swing.JFrame {
+
 
     /**
      * Creates new form TelaPrincipal
-     * @throws java.io.IOException
+     * 
      */
-    public TelaPrincipal() throws IOException {
+    public TelaPrincipal() {
         initComponents();
-        mainLucene = new MainLucene();
-        mainLucene.inicializaMainLucene();
     }
 
     /**
@@ -191,58 +178,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         index();
     }//GEN-LAST:event_campoURLActionPerformed
 
-    private void index() {
-        try {
-            utilHTML.saveToDisk(campoURL.getText());
-            Indexer indexer = new Indexer(mainLucene.getIndexDir());
-            indexer.createIndex(mainLucene.getDataDir(), new HTMLFileFilter());
-            campoURL.setText("");
-            indexer.close();
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            JOptionPane.showMessageDialog(null, "HTML Indexed Succesfully.\n");
-        }
-    }
+    abstract void index();
     
     private void btnIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndexActionPerformed
         index();
     }//GEN-LAST:event_btnIndexActionPerformed
     
-    private void search() {
-         try {
-            Searcher searcher = new Searcher(mainLucene.getIndexDir());
-            long startTime = System.currentTimeMillis();
-            TopDocs hits = searcher.search(campoPesquisa.getText());
-            long endTime = System.currentTimeMillis();
-            
-            labelCount.setText("HTML files found: "+ hits.totalHits);
-
-            DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
-            deleteAllRows(dtm);
-
-             
-            for (ScoreDoc scoreDoc : hits.scoreDocs) {
-                Vector<Object> data = new Vector<>();
-                Document doc = searcher.getDocument(scoreDoc);
-                data.add(doc.get(LuceneConstants.FILE_PATH));
-                dtm.addRow(data);
-            }
-            
-            tabela.setModel(dtm);
-            System.out.println(hits.totalHits +
-               " documents found. Time :" + (endTime - startTime));
-            for(ScoreDoc scoreDoc : hits.scoreDocs) {
-               Document doc = searcher.getDocument(scoreDoc);
-                  System.out.println("File: "
-                  + doc.get(LuceneConstants.FILE_PATH));
-            }
-            searcher.close();
-
-            } catch (IOException | ParseException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    abstract void search();
     
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         search();
@@ -267,11 +209,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         if (campoPesquisa.getText().equals("")) return;
         search();    }//GEN-LAST:event_campoPesquisaKeyTyped
 
-    public static void deleteAllRows(final DefaultTableModel model) {
-    for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
-        model.removeRow(i);
-    }
-}
     /**
      * @param args the command line arguments
      */
@@ -302,13 +239,30 @@ public class TelaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             try {
-                new TelaPrincipal().setVisible(true);
+                new TelaNegocio().setVisible(true);
             } catch (IOException ex) {
                 Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
 
+    public JTextField getCampoPesquisa() {
+        return campoPesquisa;
+    }
+
+    public JTextField getCampoURL() {
+        return campoURL;
+    }
+
+    public JLabel getLabelCount() {
+        return labelCount;
+    }
+
+    public JTable getTabela() {
+        return tabela;
+    }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIndex;
     private javax.swing.JButton btnPesquisar;
