@@ -9,6 +9,10 @@ package Lucene;
  *
  * @author marcos
  */
-public class Index {
-    
+public class LuceneConstants {
+   
+   static String FILE_NAME="filename";
+   static String FILE_PATH="filepath";
+   static int MAX_SEARCH = 10;
+   static String CONTENTS = "contents";
 }

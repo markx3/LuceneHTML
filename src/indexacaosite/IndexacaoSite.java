@@ -5,7 +5,10 @@
  */
 package indexacaosite;
 
+import Lucene.Indexer;
+import Utils.HTMLFileFilter;
 import Utils.UtilHTML;
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import org.jsoup.nodes.Document;
@@ -16,15 +19,19 @@ import org.jsoup.nodes.Document;
  */
 public class IndexacaoSite {
 
+    private static Indexer indexer;
+    private static HTMLFileFilter htmlFileFiler;
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
      */
+    
     public static void main(String[] args) throws IOException {
         
         UtilHTML utilHtml = new UtilHTML();
         Scanner scanner = new Scanner(System.in);
         utilHtml.saveToDisk(scanner.nextLine());
+
         
         
         

@@ -19,6 +19,11 @@ import org.jsoup.nodes.Document;
  * @author marcos
  */
 public class UtilHTML {
+
+    public UtilHTML() {
+    }
+    
+    
     
     public Document getHtml(String url) throws IOException {
         final Response response = Jsoup.connect(url).execute();
@@ -28,7 +33,7 @@ public class UtilHTML {
     
     public void htmlToFile(Document doc) throws IOException {
         final File f = new File("db/"+doc.title()+".html");
-        FileUtils.writeStringToFile(f, doc.html(), "UTF-8");
+        FileUtils.writeStringToFile(f, doc.outerHtml(), "UTF-8");
     }
     
     public void saveToDisk(String url) throws IOException {
