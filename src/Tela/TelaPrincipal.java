@@ -13,8 +13,11 @@ import Utils.HTMLFileFilter;
 import Utils.UtilHTML;
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.ScoreDoc;
@@ -61,7 +64,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Indexação de HTMLs");
+        jLabel1.setText("LuceneHTML");
 
         jLabel2.setText("URL:");
 
@@ -80,6 +83,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel3.setText("Pesquisa:");
 
+        campoPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoPesquisaActionPerformed(evt);
+            }
+        });
+        campoPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoPesquisaKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campoPesquisaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoPesquisaKeyReleased(evt);
+            }
+        });
+
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,17 +109,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Título", "Path"
+                "File"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -152,32 +169,54 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void campoURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoURLActionPerformed
-        // TODO add your handling code here:
+        index();
     }//GEN-LAST:event_campoURLActionPerformed
 
-    private void btnIndexarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndexarActionPerformed
+    private void index() {
         try {
             utilHTML.saveToDisk(campoURL.getText());
-            Indexer indexer;
-            indexer = new Indexer(mainLucene.getIndexDir());
-            indexer.indexFile(new File("db/"+campoURL.getText().substring(7)+".html"));
+            Indexer indexer = new Indexer(mainLucene.getIndexDir());
+            indexer.createIndex(mainLucene.getDataDir(), new HTMLFileFilter());
             campoURL.setText("");
-            
+            indexer.close();
         } catch (IOException ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            JOptionPane.showMessageDialog(null, "HTML Indexed Succesfully.\n");
         }
-       
+    }
+    
+    private void btnIndexarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndexarActionPerformed
+        index();
     }//GEN-LAST:event_btnIndexarActionPerformed
-
-    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        try {
+    
+    private void search() {
+         try {
             Searcher searcher = new Searcher(mainLucene.getIndexDir());
             long startTime = System.currentTimeMillis();
             TopDocs hits = searcher.search(campoPesquisa.getText());
             long endTime = System.currentTimeMillis();
+            
+
+            DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
+            deleteAllRows(dtm);
+
+             
+            for (ScoreDoc scoreDoc : hits.scoreDocs) {
+                Vector<Object> data = new Vector<>();
+                Document doc = searcher.getDocument(scoreDoc);
+                data.add(doc.get(LuceneConstants.FILE_PATH));
+                dtm.addRow(data);
+            }
+            
+           tabela.setModel(dtm);
+
+      
+            
    
             System.out.println(hits.totalHits +
                " documents found. Time :" + (endTime - startTime));
@@ -186,11 +225,41 @@ public class TelaPrincipal extends javax.swing.JFrame {
                   System.out.println("File: "
                   + doc.get(LuceneConstants.FILE_PATH));
             }
+            searcher.close();
+
             } catch (IOException | ParseException ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        search();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    private void campoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPesquisaActionPerformed
+        if(campoPesquisa.getText().equals("")) return; 
+        search();  
+    }//GEN-LAST:event_campoPesquisaActionPerformed
+
+    private void campoPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoPesquisaKeyPressed
+        if (campoPesquisa.getText().equals("")) return;
+        search();
+    }//GEN-LAST:event_campoPesquisaKeyPressed
+
+    private void campoPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoPesquisaKeyReleased
+        if (campoPesquisa.getText().equals("")) return;
+        search();
+    }//GEN-LAST:event_campoPesquisaKeyReleased
+
+    private void campoPesquisaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoPesquisaKeyTyped
+        if (campoPesquisa.getText().equals("")) return;
+        search();    }//GEN-LAST:event_campoPesquisaKeyTyped
+
+    public static void deleteAllRows(final DefaultTableModel model) {
+    for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
+        model.removeRow(i);
+    }
+}
     /**
      * @param args the command line arguments
      */

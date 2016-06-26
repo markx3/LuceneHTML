@@ -6,8 +6,10 @@
 package Lucene;
 
 import Utils.HTMLFileFilter;
+import java.awt.Event;
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.ParseException;
@@ -24,11 +26,9 @@ public class MainLucene {
    private Searcher searcher;
 
      public void inicializaMainLucene() throws IOException {
-      if (!new File(indexDir).exists()) {
         try { 
             createIndex();
         } catch (IOException e) {
-        }
      }
    }
    

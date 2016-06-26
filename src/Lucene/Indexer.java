@@ -37,7 +37,7 @@ public class Indexer {
          IndexWriter.MaxFieldLength.UNLIMITED);
     }
     
-    void close() throws CorruptIndexException, IOException {
+    public void close() throws CorruptIndexException, IOException {
         writer.close();
     }
     
