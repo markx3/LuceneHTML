@@ -5,15 +5,8 @@
  */
 package LuceneHTML;
 
-import Lucene.Indexer;
 import Tela.TelaNegocio;
-import Utils.HTMLFileFilter;
-import Utils.UtilHTML;
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
-import org.jsoup.nodes.Document;
-
 /**
  *
  * @author marcos

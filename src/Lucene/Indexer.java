@@ -5,7 +5,6 @@
  */
 package Lucene;
 
-import Utils.HTMLFileFilter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
