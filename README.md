@@ -2,6 +2,6 @@
   
   
 ###Acadêmicos:
-	* Marcos Felipe Eipper  
-	* Willian Feldmann Kumlehn
+* Marcos Felipe Eipper  
+* Willian Feldmann Kumlehn
 
